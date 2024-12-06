@@ -1,0 +1,28 @@
+- name: Instala pacotes
+  ansible.builtin.apt:
+    name:
+      - git
+      - docker.io
+      - docker-compose
+    update_cache: yes
+    state: present
+
+- name: Cria usuário que vai rodar o docker
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+  loop: "{{ apps }}"
+
+- name: Git clone
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "/home/{{ item.name }}/{{ item.name }}"
+  become: yes
+  become_user: "{{ item.name }}"
+  loop: "{{ apps }}"
+
+    #- name: Coloca .env
+    #  ansible.builtin.
+    #
+    #- name: Sobe compose
+    #  dommunity.docker.docker_compose_v2:
+    #    project_src: docker
