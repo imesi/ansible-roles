@@ -4,6 +4,7 @@
       - git
       - docker.io
       - docker-compose
+      - sudo
     update_cache: yes
     state: present
 
@@ -19,10 +20,3 @@
   become: yes
   become_user: "{{ item.name }}"
   loop: "{{ apps }}"
-
-    #- name: Coloca .env
-    #  ansible.builtin.
-    #
-    #- name: Sobe compose
-    #  dommunity.docker.docker_compose_v2:
-    #    project_src: docker
