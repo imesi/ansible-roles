@@ -11,6 +11,7 @@
 - name: Cria usuário que vai rodar o docker
   ansible.builtin.user:
     name: "{{ item.name }}"
+    groups: docker
   loop: "{{ apps }}"
 
 - name: Git clone
