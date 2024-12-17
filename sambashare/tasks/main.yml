@@ -1,0 +1,42 @@
+- name: Instala pacotes
+  ansible.builtin.apt:
+    name:
+      - samba
+    update_cache: yes
+    state: present
+
+- name: Verifica arquivo com a senha
+  ansible.builtin.stat:
+    path: /root/pass
+  register: passfile
+
+- name: Cria o dono dos arquivos
+  when: passfile.stat.exists is false
+  block:
+    - ansible.builtin.copy:
+        dest: /root/pass
+        content: "{{ lookup('password', '/dev/null', chars=['ascii_letters', 'digits']) }}"
+
+    - ansible.builtin.slurp:
+        src: /root/pass
+      register: share_password
+
+    -  ansible.builtin.user:
+        name: "{{ share_user }}"
+        password: "{{ share_password.content | b64decode | password_hash('sha512') }}"
+
+    -  ansible.builtin.shell: "(cat /root/pass; echo ''; cat /root/pass) | smbpasswd -s -a {{ share_user }}"
+
+- name: Cria a pasta do compartilhamento
+  ansible.builtin.file:
+    path: "/home/{{ share_user }}/share"
+    owner: "{{ share_user }}"
+    group: "{{ share_user }}"
+    mode: "700"
+    state: directory
+
+- name: Configura smb.conf
+  ansible.builtin.template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+  notify: reinicia samba
