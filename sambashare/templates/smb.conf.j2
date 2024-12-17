@@ -1,0 +1,17 @@
+server role = standalone server
+workgroup = {{ workgroup }}
+obey pam restrictions = yes
+unix password sync = no
+map to guest = Never
+usershare max shares = 0
+usershare allow guests = no
+security = User
+
+[{{ share_name }}]
+comment = Share
+path = /home/{{ share_user }}/share
+browseable = no
+printable = no
+valid users = {{ share_user }}
+guest ok = no
+writeable = yes
