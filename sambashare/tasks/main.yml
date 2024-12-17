@@ -2,7 +2,6 @@
   ansible.builtin.apt:
     name:
       - samba
-      - python3-passlib
     update_cache: yes
     state: present
 
