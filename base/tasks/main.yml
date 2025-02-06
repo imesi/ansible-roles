@@ -47,6 +47,7 @@
       - nethogs
       - nmap
       - pssh
+      - pwgen
       - rasdaemon
       - rsync
       - rsyslog-gnutls
