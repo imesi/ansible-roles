@@ -14,7 +14,7 @@
 
 - name: realm join
   expect:
-    command: realm join AD.IME.USP.BR -U "{{ ad_user }}" --do-not-touch-config
+    command: realm join "{{ ad_domain }}" -U "{{ ad_user }}" --do-not-touch-config
     responses:
       Password for *: "{{ ad_password }}"
       Senha para *: "{{ ad_password }}"
