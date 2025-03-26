@@ -25,11 +25,3 @@
     regexp: '^APPTAINER_BINDPATH='
     line: APPTAINER_BINDPATH=/var/fasttmp
   tags: environment
-
-- name: copia o script R com orientações sobre apptainer
-  ansible.builtin.copy:
-    src: R
-    dest: /usr/local/bin/R
-    owner: root
-    group: root
-    mode: '755'
