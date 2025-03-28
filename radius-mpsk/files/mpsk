@@ -1,0 +1,4 @@
+files mpsk {
+    moddir = ${modconfdir}/${.:instance}
+	filename = ${moddir}/authorize
+}

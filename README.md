@@ -21,3 +21,25 @@ Grupos autorizados e portas para SSH.
 
 ## ui
 Pacotes e arcabouço de customização do dconf.
+
+## radius-mpsk
+Monta servidor de RADIUS configurado com certificado de EAP e módulo para MPSK (compatível só com Aruba).
+
+É preciso dar chown nos arquivos gerados pelo certbot, por isso o deploy_hook.
+
+```yml
+  vars:
+    certbot_admin_email: admin@ime.usp.br
+    certbot_create_if_missing: true
+    certbot_certs:
+      - name: "{{ eap_domain }}"
+        domains:
+          - "{{ eap_domain }}"
+        deploy_hook: /usr/local/bin/certbot_chown.sh
+    certbot_create_standalone_stop_services:
+      - freeradius
+
+  roles:
+    - radius-mpsk
+    - geerlingguy.certbot
+```

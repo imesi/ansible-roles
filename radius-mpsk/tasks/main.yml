@@ -1,0 +1,75 @@
+- name: pacotes
+  apt:
+    update_cache: yes
+    name:
+      - freeradius
+
+- name: libera controladora
+  blockinfile:
+    path: /etc/freeradius/3.0/clients.conf
+    insertafter: EOF
+    block: |
+      client controller {
+        ipaddr = {{ controller_ip }}
+        secret = {{ controller_secret }}
+      }
+  notify: reinicia freeradius
+
+# EAP e certificado
+- name: configura certificado no EAP - senha
+  lineinfile:
+    path: /etc/freeradius/3.0/mods-available/eap
+    state: absent
+    regexp: '.*private_key_password = .*'
+  notify: reinicia freeradius
+
+- name: configura certificado no EAP - chave privada
+  lineinfile:
+    path: /etc/freeradius/3.0/mods-available/eap
+    regexp: '.*private_key_file = .*'
+    line: private_key_file = /etc/letsencrypt/live/{{ eap_domain }}/privkey.pem
+  notify: reinicia freeradius
+
+- name: configura certificado no EAP - certificado
+  lineinfile:
+    path: /etc/freeradius/3.0/mods-available/eap
+    regexp: '.*certificate_file = .*'
+    line: certificate_file = /etc/letsencrypt/live/{{ eap_domain }}/fullchain.pem
+  notify: reinicia freeradius
+
+# MPSK
+- name: módulo MPSK
+  copy:
+    src: mpsk
+    dest: /etc/freeradius/3.0/mods-enabled/mpsk
+
+- name: config MPSK - diretório
+  file:
+    path: /etc/freeradius/3.0/mods-config/mpsk
+    state: directory
+
+- name: config MPSK - arquivo
+  file:
+    path: /etc/freeradius/3.0/mods-config/mpsk/authorize
+    state: touch
+    modification_time: preserve
+    access_time: preserve
+
+- name: virtual server MPSK
+  copy:
+    src: ime
+    dest: /etc/freeradius/3.0/sites-enabled/ime
+  notify: reinicia freeradius
+
+- name: remove virtual server default
+  file:
+    path: /etc/freeradius/3.0/sites-enabled/default
+    state: absent
+  notify: reinicia freeradius
+
+# permissões do certbot
+- name: chown script
+  copy:
+    src: certbot_chown.sh
+    dest: /usr/local/bin/certbot_chown.sh
+    mode: '0755'
