@@ -107,3 +107,11 @@
     - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIqjxCvQcwdgzTcugkyOXrSLJIRHZT92LEFz9vcfIooPlUzx/2EJWadSmcYFf9tEU2234R3QIQcySkq8934HHvIeJKerlk/XFBcGEV9RQlH78AHmThxitSxmR4XqWekodjPZV2ZrVf7k9F2ADQTh0Cv+gV6KOAkKdTda9ic9af/t6J6GnlPPS+elzTa0LhTo6zBmmO/mSVkAnuj3aTq67P89mvvBKgu/CJD6WDi+oJT6phrIjKXBLVx7ry4O3/KBhfOaVooRp/hz8JxGTLm+0fH26jwTicsdOTkhu0n6actL4RNAUyZF6WP8bFnMPaEpCaZMLyCOv7+1XMkcuqRiYHHjRUg+O38nRN3Sk0Wv7gZ96sbL0FWYz5LZoEEjSj+6V6jmwjmrxmrPeokpb/d8kSlfbhqir6l00d6F/3xiD78wfMm0l11ZUXvht4ZW5Bv0vPhCWbCUx9uKotvHThNDLkOadYB8/I6HHNI16a+Qsoruel69owEnLXWkY4RPn6kuHq2ctF5opqQ+AuaP4zjaOw8GAVNgEmloIJ+ZVt9LK5eDkU6ulQ1eWt40luECfInUXOm95RGCOinXBhDaV1mT09+9tRBDuuINAj6x/3lFJMoFfujCUbRDtJHHY6WD7L8SmgWEaJ71BYzOm0F1CgZchhZa/Jww8MWdkroTPoxJm9hw=="
     - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG3oEW3u5gpiFrqSqEPWemAcVB8jisX4kQGxBrapXDV3"
     - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOlvwfNGpLDJ3/QQM8ojhjUyBCbdU2jTILimePUWPrSq"
+
+- name: coloca o 20auto-upgrades no apt.conf.d
+  ansible.builtin.copy:
+    src: 20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    owner: root
+    group: root
+    mode: "644"
