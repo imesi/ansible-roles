@@ -1,0 +1,5 @@
+Unattended-Upgrade::Origins-Pattern {
+        "origin=Debian Backports,codename=${distro_codename}-backports,label=Debian Backports";
+};
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::Automatic-Reboot-WithUsers "false";
