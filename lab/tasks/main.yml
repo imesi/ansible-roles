@@ -27,3 +27,11 @@
         src: lightdm-gtk-greeter.conf.d/02_ime.conf
         dest: /usr/share/lightdm/lightdm-gtk-greeter.conf.d/02_ime.conf
   when: lab_wallpaper 
+  
+- name: coloca o 52unattended-upgrades no apt.conf.d
+  ansible.builtin.copy:
+    src: apt.conf.d/52unattended-upgrades
+    dest: /etc/apt/apt.conf.d/52unattended-upgrades
+    owner: root
+    group: root
+    mode: '644'
