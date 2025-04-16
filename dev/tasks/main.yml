@@ -48,6 +48,14 @@
     group: root
     mode: '755'
 
+- name: copia o script rstudio com orientações sobre apptainer
+  ansible.builtin.copy:
+    src: rstudio
+    dest: /usr/local/bin/rstudio
+    owner: root
+    group: root
+    mode: '755'
+
 - name: copia o script R com orientações sobre apptainer
   ansible.builtin.copy:
     src: R
