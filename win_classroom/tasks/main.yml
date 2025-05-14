@@ -8,9 +8,7 @@
       - python
       - r.project
       - r.studio
-      - skype
       - texmaker
-      - texniccenter
       - texstudio
       - zoom
     state: present
