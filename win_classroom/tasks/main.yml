@@ -1,7 +1,7 @@
 - name: Instala programas usados nas máquinas de sala de aula
   win_chocolatey:
     name:
-      - geogebra-classic.install
+      - geogebra6
       - gimp
       - inkscape
       - miktex
