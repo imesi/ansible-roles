@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cat << EOF
+
+Recomendamos executar o Rstudio utilizando o Apptainer.
+Temos um script pronto que inicia o Rstudio localmente com o comando:
+
+	rstudio_apptainer.sh PORTA
+
+Onde PORTA é alguma porta livre na máquina entre 10000 a 40000. Exemplo:
+
+  rstudio_apptainer.sh 12345
+
+O script irá gerar e exibir uma senha de acesso.
+Basta acessar pelo navegador o endereço http://localhost:PORTA e usar a senha para acessar o RStudio.
+
+Mais informações em: https://wiki.ime.usp.br/servicos:rstudio
+
+EOF

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=R
+Comment=R software environment for statistical computing and graphics
+Exec=/usr/lib/firefox-esr/firefox-esr --new-tab https://wiki.ime.usp.br/tutoriais:apptainer
+Icon=/usr/share/icons/rlogo_icon.png
+Terminal=false
+StartupNotify=true
+Categories=Graphics;Science;Math;
+StartupWMClass=R_x11
