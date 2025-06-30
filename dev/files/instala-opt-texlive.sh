@@ -22,7 +22,7 @@ baixa_instalador() {
 	#cria pasta, baixa o instalador e descompacta
 	mkdir -p $PASTA_INSTALADOR
 	cd $PASTA_INSTALADOR || exit 1
-	wget $INSTALADOR_URL || exit 2
+	wget $INSTALADOR_URL -O install-tl-unx.tar.gz || exit 2
 	zcat < install-tl-unx.tar.gz | tar xf -
 }
 
