@@ -56,6 +56,14 @@
     group: root
     mode: '755'
 
+- name: copia o instalador manual de texlive que instala em /opt/texlive
+  ansible.builtin.copy:
+    src: instala-opt-texlive.sh
+    dest: /root/instala-opt-texlive.sh
+    owner: root
+    group: root
+    mode: '700'
+
 # Resto
 - name: pacotes dev
   apt:
