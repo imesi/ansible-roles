@@ -64,6 +64,21 @@
     group: root
     mode: '700'
 
+- name: instala ou atualiza TexLive completo em /opt/texlive para ser utilizado com imagens de R e Rstudio do Apptainer
+  script:
+    src: /root/instala-opt-texlive.sh
+  register: script_result
+
+- name: Mostrar a saída do script
+  debug:
+    msg: "Saída do script: {{ script_result.stdout }}"
+
+- name: Verificar o código de retorno do script
+  assert:
+    that:
+      - script_result.rc == 0
+    msg: "O script falhou com o código de retorno {{ script_result.rc }}"
+
 # Resto
 - name: pacotes dev
   apt:
