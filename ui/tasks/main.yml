@@ -34,14 +34,14 @@
       - webext-ublock-origin-firefox
       - xournal
 
-- name: libreoffice backports
-  apt:
-    update_cache: yes
-    default_release: bookworm-backports
-    pkg:
-      - libreoffice
-      - libreoffice-help-pt-br
-      - libreoffice-lightproof-pt-br
+      #- name: libreoffice backports
+      #  apt:
+      #    update_cache: yes
+      #    default_release: trixie-backports
+      #    pkg:
+      #      - libreoffice
+      #      - libreoffice-help-pt-br
+      #      - libreoffice-lightproof-pt-br
 
 - name: dconf profile dir
   file:
