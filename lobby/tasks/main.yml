@@ -1,0 +1,26 @@
+- name: adiciona usuário aula
+  user:
+    name: ssg
+    password: ''
+    append: yes
+    groups:
+      - audio
+      - bluetooth
+      - netdev
+      - plugdev
+      - scanner
+      - video
+    shell: /bin/bash
+
+- name: configura autologin
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regexp: '^#autologin-user='
+    line: autologin-user=ssg
+
+- name: Atalhos no desktop
+  copy:
+    src: 'Área de trabalho/'
+    dest: '/home/ssg/Área de trabalho/'
+    owner: ssg
+    group: ssg
