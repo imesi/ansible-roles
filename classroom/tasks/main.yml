@@ -7,11 +7,9 @@
       - curl
       - git
       - jq
-      - julia
       - kbibtex
       - kile
       - kile-l10n
-      - mu-editor
       - octave
       - python3-pip
       - r-cran-rcmdr
@@ -23,7 +21,7 @@
 
 - name: install rstudio
   apt:
-    deb: https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2021.09.1-372-amd64.deb
+    deb: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2025.05.1-513-amd64.deb
 
 - name: install automirror
   apt:
