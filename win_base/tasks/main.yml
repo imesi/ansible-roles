@@ -43,6 +43,7 @@
       - firefox
       - googlechrome
       - libreoffice-fresh
+      - nextcloud-client
       - notepadplusplus
       - onlyoffice
       - openjdk
