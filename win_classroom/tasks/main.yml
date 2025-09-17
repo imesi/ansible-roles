@@ -28,7 +28,7 @@
     password_never_expires: yes
     state: present
     groups:
-      - 'Convidados'
+      - 'Usuários'
 
 - name: Define o usuário do login automático para o usuário aula
   ansible.windows.win_regedit:
