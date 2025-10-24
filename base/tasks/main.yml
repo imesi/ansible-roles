@@ -1,27 +1,79 @@
 - name: repositorio default
-  apt_repository:
-    repo: deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
-    filename: default
+  deb822_repository:
+    name: default
+    types: deb
+    uris: http://deb.debian.org/debian
+    suites: trixie
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
 
 - name: repositorio security
-  apt_repository:
-    repo: deb https://security.debian.org/debian-security trixie-security main contrib non-free non-free-firmware
-    filename: security
+  deb822_repository:
+    types: deb
+    name: security
+    uris: https://security.debian.org/debian-security
+    suites: trixie-security
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
 
 - name: repositorio updates
-  apt_repository:
-    repo: deb http://deb.debian.org/debian trixie-updates main contrib non-free non-free-firmware
-    filename: updates
+  deb822_repository:
+    types: deb
+    name: updates
+    uris: http://deb.debian.org/debian
+    suites: trixie-updates
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
 
 - name: repositorio backports
-  apt_repository:
-    repo: deb http://deb.debian.org/debian trixie-backports main contrib non-free non-free-firmware
-    filename: backports
+  deb822_repository:
+    types: deb
+    name: backports
+    uris: http://deb.debian.org/debian
+    suites: trixie-backports
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
 
 - name: limpa sources.list
   copy:
     content: ""
     dest: /etc/apt/sources.list
+
+- name: limpa repositório default antigo
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/default.list
+    state: absent
+
+- name: limpa repositório security antigo
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/security.list
+    state: absent
+
+- name: limpa repositório updates antigo
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/updates.list
+    state: absent
+
+- name: limpa repositório backports antigo
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/backports.list
+    state: absent
 
 - name: pacotes basicos
   apt:
