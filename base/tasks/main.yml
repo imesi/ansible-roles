@@ -80,16 +80,13 @@
     update_cache: yes
     pkg:
       - aptitude
-      - bmon
+      - btop
       - colordiff
-      - debian-keyring
       - dos2unix
       - emacs
       - ethtool
       - htop
-      - iftop
       - iotop
-      - ipcalc
       - lsb-release
       - lshw
       - lsscsi
@@ -98,24 +95,16 @@
       - ncdu
       - nethogs
       - nmap
-      - pssh
       - pwgen
       - rasdaemon
       - rsync
-      - rsyslog-gnutls
       - screen
       - smartmontools
-      - s-nail
       - strace
-      - subnetcalc
       - sysstat
-      - tcpdump
       - tmux
-      - tree
       - unattended-upgrades
-      - unicode
       - vim
-      - wakeonlan
 
 - name: retira 127.0.1.1 do hosts
   lineinfile:
@@ -129,13 +118,6 @@
     insertafter: '^127\.0\.0\.1.*'
     regexp: ".*{{ ansible_facts['fqdn'] }}.*{{ ansible_facts['hostname'] }}"
     line: "{{ ansible_facts['default_ipv4']['address']}} {{ ansible_facts['fqdn'] }} {{ ansible_facts['hostname'] }}"
-    state: present
-
-- name: gambi nfs
-  lineinfile:
-    path: /etc/hosts
-    insertafter: '^127\.0\.0\.1.*'
-    line: "200.144.254.25 moros.ad.ime.usp.br moros"
     state: present
 
 - name: ntp
