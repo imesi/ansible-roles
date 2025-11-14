@@ -131,13 +131,6 @@
     line: "{{ ansible_facts['default_ipv4']['address']}} {{ ansible_facts['fqdn'] }} {{ ansible_facts['hostname'] }}"
     state: present
 
-- name: gambi nfs
-  lineinfile:
-    path: /etc/hosts
-    insertafter: '^127\.0\.0\.1.*'
-    line: "200.144.254.25 moros.ad.ime.usp.br moros"
-    state: present
-
 - name: ntp
   lineinfile:
     path: /etc/systemd/timesyncd.conf
