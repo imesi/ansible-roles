@@ -80,6 +80,7 @@
     update_cache: yes
     pkg:
       - aptitude
+      - btop
       - colordiff
       - dos2unix
       - emacs
