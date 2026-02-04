@@ -122,7 +122,7 @@
     group: root
     mode: '644'
   
-#Rstudio: a fazer
-#- name: instala Rstudio
-#  ansible.builtin.apt:
-#    deb: https://si.ime.usp.br/downloads/rstudio-latest-amd64.deb
+#Rstudio: deixar o instalador em si downloads
+- name: instala Rstudio
+  ansible.builtin.apt:
+    deb: https://si.ime.usp.br/downloads/rstudio-latest-amd64.deb
