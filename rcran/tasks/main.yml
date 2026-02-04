@@ -114,6 +114,14 @@
 - name: Instalando rspm com o remotes no R
   command: /usr/bin/Rscript -e "remotes::install_github('cran4linux/rspm')"
   
+- name: Copia o Rprofile.site para habilitar o rspm para todos por padrão
+  ansible.builtin.copy:
+    src: Rprofile.site
+    dest: /etc/R/Rprofile.site
+    owner: root
+    group: root
+    mode: '644'
+  
 #Rstudio: a fazer
 #- name: instala Rstudio
 #  ansible.builtin.apt:
