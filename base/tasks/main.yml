@@ -105,6 +105,16 @@
       - tmux
       - unattended-upgrades
       - vim
+- name: pacotes fone de ouvido bluetooth a2dp
+  apt:
+    update_cache: yes
+    pkg:
+      - libspa-0.2-bluetooth
+      - pipewire
+      - pipewire-pulse
+      - wireplumber
+      - pavucontrol
+      - pipewire-audio-client-libraries
 
 - name: retira 127.0.1.1 do hosts
   lineinfile:
