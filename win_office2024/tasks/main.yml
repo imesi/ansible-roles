@@ -37,4 +37,3 @@
     src: '{{ "%SYSTEMDRIVE%\\si\\" ~ ativadorsti_installer_filename }}'
     dest: '%SYSTEMDRIVE%\si\'
     delete_archive: yes
-
