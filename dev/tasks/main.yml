@@ -1,32 +1,3 @@
-# Miniconda
-- name: chave do repositório do miniconda
-  ansible.builtin.get_url:
-    url: '{{ conda_keyfile_url }}'
-    dest: '{{ apt_keyring_path }}/{{ conda_keyring_file }}'
-    checksum: '{{ conda_keyfile_checksum }}'
-
-- name: arquivo do repositório do miniconda
-  ansible.builtin.apt_repository:
-    repo: 'deb [ signed-by={{ apt_keyring_path }}/{{ conda_keyring_file}} ] https://repo.anaconda.com/pkgs/misc/debrepo/conda stable main'
-    filename: conda
-
-- name: instala miniconda
-  ansible.builtin.apt:
-    update_cache: yes
-    state: latest
-    pkg:
-      - conda
-
-- name: coloca miniconda no PATH
-  ansible.builtin.copy:
-    content: export PATH=${PATH}:/opt/conda/bin/
-    dest: /etc/profile.d/conda_path.sh
-
-- name: coloca source do PATH do conda no bashrc
-  ansible.builtin.lineinfile:
-    path: /etc/bash.bashrc
-    line: source /etc/profile.d/conda_path.sh
-
 # Apptainer
 - name: install apptainer
   apt:
@@ -36,30 +7,6 @@
   ansible.builtin.file:
     path: /opt/apptainer
     state: directory
-    owner: root
-    group: root
-    mode: '755'
-
-- name: copia o script rstudio_apptainer.sh
-  ansible.builtin.copy:
-    src: rstudio_apptainer.sh
-    dest: /usr/local/bin/rstudio_apptainer.sh
-    owner: root
-    group: root
-    mode: '755'
-
-- name: copia o script rstudio com orientações sobre apptainer
-  ansible.builtin.copy:
-    src: rstudio
-    dest: /usr/local/bin/rstudio
-    owner: root
-    group: root
-    mode: '755'
-
-- name: copia o script R com orientações sobre apptainer
-  ansible.builtin.copy:
-    src: R
-    dest: /usr/local/bin/R
     owner: root
     group: root
     mode: '755'
