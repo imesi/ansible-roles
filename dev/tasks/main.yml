@@ -1,7 +1,7 @@
 # Apptainer
 - name: install apptainer
   apt:
-    deb: https://github.com/apptainer/apptainer/releases/download/v1.3.0/apptainer_1.3.0_amd64.deb
+    deb: https://github.com/apptainer/apptainer/releases/download/v1.5.3/apptainer_1.5.3-trixie+_amd64.deb 
 
 - name: garante que existe o /opt/apptainer
   ansible.builtin.file:
