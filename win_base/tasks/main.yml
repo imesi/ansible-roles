@@ -35,6 +35,11 @@
     state: present
     source: '{{ chocolatey_source_url }}'
 
+- name: Desabilitar usePackageRepositoryOptimizations (necessário para repo Sonatype Nexus atual)
+  win_chocolatey_feature:
+    name: usePackageRepositoryOptimizations
+    state: disabled
+
 - name: Instala programas básicos no Windows
   win_chocolatey:
     name:
