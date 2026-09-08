@@ -12,16 +12,10 @@
       - kile-l10n
       - octave
       - python3-pip
-      - r-cran-rcmdr
-      - r-recommended
       - spyder
       - texlive-latex-recommended
       - texmaker
       - texstudio
-
-- name: install rstudio
-  apt:
-    deb: https://download1.rstudio.org/electron/jammy/amd64/rstudio-2025.05.1-513-amd64.deb
 
 - name: install automirror
   apt:

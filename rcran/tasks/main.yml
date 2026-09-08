@@ -89,6 +89,16 @@
     state: present
     enabled: yes
 
+- name: Instalar cmake para compilação, otimizadores e dep do rspm
+  ansible.builtin.apt:
+    update_cache: yes
+    pkg:
+      - cmake
+      - libatlas3-base
+      - libopenblas0
+      - apt-file
+      - patchelf
+
 - name: Instalar pacotes do R
   ansible.builtin.apt:
     update_cache: yes
@@ -98,14 +108,6 @@
       - r-base-dev
       - r-recommended
       
-- name: Instalar cmake para compilação, otimizadores e dep do rspm
-  ansible.builtin.apt:
-    pkg:
-      - cmake
-      - libatlas3-base
-      - libopenblas0
-      - apt-file
-
 - name: Adicionando o pacote remotes no R
   command: /usr/bin/Rscript --slave --no-save --no-restore-history -e "if (! ('{{ item }}' %in% installed.packages()[,'Package'])) install.packages(pkgs='{{ item }}', repos=c('https://cloud.r-project.org/'))"
   with_items: 
@@ -122,7 +124,7 @@
     group: root
     mode: '644'
   
-#Rstudio: deixar o instalador em si downloads
+#Rstudio: deixar o instalador em si downloads - na verdade tem um redirect no .htaccess de ~siweb/www/
 - name: instala Rstudio
   ansible.builtin.apt:
     deb: https://si.ime.usp.br/downloads/rstudio-latest-amd64.deb
