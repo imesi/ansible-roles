@@ -1,0 +1,39 @@
+- name: Verifica a existência da pasta do Microsoft Office
+  win_stat:
+    path: '%ProgramFiles(x86)%\Microsoft Office\root\Office 16\EXCEL.EXE'
+  register: office2024_folder
+
+- name: Cria pasta da SI na raiz do sistema
+  win_file:
+    path: '%SYSTEMDRIVE%\si'
+    state: directory
+
+- name: Instala o Microsoft Office 2024
+  block:
+    - name: Copia o instalador do Office 2024 para o destino
+      win_copy:
+        src: '{{ office2024_installer_path ~ "/" ~ office2024_installer_filename }}'
+        dest: '{{ "%SYSTEMDRIVE%\\si\\" ~ office2024_installer_filename }}'
+
+    - name: Descompacta o instalador do Office 2024
+      win_unzip:
+        src: '{{ "%SYSTEMDRIVE%\\si\\" ~ office2024_installer_filename }}'
+        dest: '%SYSTEMDRIVE%\si\'
+        delete_archive: yes
+
+    - name: Executa o instalador do Office 2024
+      win_command: setup.exe /configure officestd2024-64bits.xml
+      args:
+        chdir: '%SYSTEMDRIVE%\si\Office'
+  when: office2024_folder.stat.exists == false
+
+- name: Copia o instalador do Ativador STI para o destino
+  win_copy:
+    src: '{{ ativadorsti_installer_path ~ "/" ~ ativadorsti_installer_filename }}'
+    dest: '{{ "%SYSTEMDRIVE%\\si\\" ~ ativadorsti_installer_filename }}'
+
+- name: Descompacta o instalador do Ativador STI
+  win_unzip:
+    src: '{{ "%SYSTEMDRIVE%\\si\\" ~ ativadorsti_installer_filename }}'
+    dest: '%SYSTEMDRIVE%\si\'
+    delete_archive: yes
