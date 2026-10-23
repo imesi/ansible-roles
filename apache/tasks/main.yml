@@ -32,6 +32,7 @@
     group: root
     mode: '644'
 
+# ../ serve para mimetizar o a2enconf/a2ensite
 - name: ativa config do remoteip
   ansible.builtin.file:
     src: ../conf-available/remoteip.conf
@@ -45,7 +46,7 @@
     state: present
   when: apache_userdir == true
 
-- name: confgura userdir
+- name: configura userdir
   ansible.builtin.copy:
     src: userdir.conf
     dest: /etc/apache2/mods-available/userdir.conf
