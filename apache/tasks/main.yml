@@ -120,3 +120,16 @@
     state: link
   when: apache_php == true
   notify: reinicia apache2
+
+- name: configura php.ini do php-fpm
+  ansible.builtin.lineinfile:
+    dest: /etc/php/8.4/fpm/php.ini
+    regexp: "{{ item | regex_search('.*=') }}"
+    line: "{{ item }}"
+    state: present
+  loop:
+    - upload_max_filesize = 16M
+    - post_max_size = 32M
+    - short_open_tag = On
+  when: apache_php == true
+  notify: reinicia php-fpm
