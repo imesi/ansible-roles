@@ -12,6 +12,21 @@
     state: present
   notify: reinicia apache2
 
+# necessário pois o nome do arquivo default-ssl normal tem pouca precedência
+- name: cria symlink para site default ssl
+  ansible.builtin.file:
+    src: default-ssl.conf
+    dest: /etc/apache2/sites-available/001-default-ssl.conf
+    state: link
+
+# ../ serve para mimetizar o a2enconf/a2ensite
+- name: ativa site default ssl
+  ansible.builtin.file:
+    src: ../sites-available/001-default-ssl.conf
+    dest: /etc/apache2/sites-enabled/001-default-ssl.conf
+    state: link
+  notify: reinicia apache2
+
 - name: liga rewrite
   community.general.apache2_module:
     name: rewrite
