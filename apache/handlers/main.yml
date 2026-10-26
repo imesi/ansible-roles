@@ -1,0 +1,9 @@
+- name: reinicia apache2
+  service:
+    name: apache2
+    state: restarted
+
+- name: reinicia php-fpm
+  service:
+    name: php8.4-fpm
+    state: restarted

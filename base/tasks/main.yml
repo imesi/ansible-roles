@@ -102,6 +102,7 @@
       - smartmontools
       - strace
       - sysstat
+      - systemd-timesyncd
       - tmux
       - unattended-upgrades
       - vim

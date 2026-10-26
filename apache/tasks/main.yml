@@ -1,0 +1,135 @@
+- name: pacotes apache
+  apt:
+    update_cache: yes
+    pkg:
+      - apache2
+      - curl
+      - ssl-cert
+
+- name: liga ssl
+  community.general.apache2_module:
+    name: ssl
+    state: present
+  notify: reinicia apache2
+
+- name: liga rewrite
+  community.general.apache2_module:
+    name: rewrite
+    state: present
+  notify: reinicia apache2
+
+# ip correto via proxypass
+- name: liga remoteip
+  community.general.apache2_module:
+    name: remoteip
+    state: present
+
+- name: configura remoteip
+  ansible.builtin.copy:
+    src: remoteip.conf
+    dest: /etc/apache2/conf-available/remoteip.conf
+    owner: root
+    group: root
+    mode: '644'
+
+# ../ serve para mimetizar o a2enconf/a2ensite
+- name: ativa config do remoteip
+  ansible.builtin.file:
+    src: ../conf-available/remoteip.conf
+    dest: /etc/apache2/conf-enabled/remoteip.conf
+    state: link
+  notify: reinicia apache2
+
+- name: liga userdir
+  community.general.apache2_module:
+    name: userdir
+    state: present
+  when: apache_userdir == true
+
+- name: configura userdir
+  ansible.builtin.copy:
+    src: userdir.conf
+    dest: /etc/apache2/mods-available/userdir.conf
+    owner: root
+    group: root
+    mode: '644'
+  when: apache_userdir == true
+  notify: reinicia apache2
+
+- name: configura default charset
+  ansible.builtin.copy:
+    src: charset.conf
+    dest: /etc/apache2/conf-available/charset.conf
+    owner: root
+    group: root
+    mode: '644'
+  notify: reinicia apache2
+
+- name: desliga cgi
+  ansible.builtin.file:
+    dest: /etc/apache2/conf-enabled/serve-cgi-bin.conf
+    state: absent
+  notify: reinicia apache2
+
+- name: pacotes php
+  apt:
+    update_cache: yes
+    pkg:
+      - composer
+      - php-bcmath
+      - php-curl
+      - php-fpm
+      - php-gd
+      - php-imagick
+      - php-intl
+      - php-ldap
+      - php-mbstring
+      - php-mysql
+      - php-soap
+      - php-sqlite3
+      - php-xml
+      - php-xmlrpc
+      - php-zip
+  when: apache_php == true
+
+- name: liga php-fpm no apache
+  community.general.apache2_module:
+    name: proxy_fcgi
+    state: present
+  when: apache_php == true
+  notify: reinicia apache2
+
+- name: cria diretório php-enabled
+  ansible.builtin.file:
+    dest: /etc/apache2/php-enabled
+    state: directory
+    mode: '755'
+  when: apache_php == true
+
+- name: coloca config do userphp
+  ansible.builtin.copy:
+    src: userphp.conf
+    dest: /etc/apache2/conf-available/userphp.conf
+    mode: '644'
+  when: apache_php == true
+
+- name: ativa config do userphp
+  ansible.builtin.file:
+    src: ../conf-available/userphp.conf
+    dest: /etc/apache2/conf-enabled/userphp.conf
+    state: link
+  when: apache_php == true
+  notify: reinicia apache2
+
+- name: configura php.ini do php-fpm
+  ansible.builtin.lineinfile:
+    dest: /etc/php/8.4/fpm/php.ini
+    regexp: "{{ item | regex_search('.*=') }}"
+    line: "{{ item }}"
+    state: present
+  loop:
+    - upload_max_filesize = 16M
+    - post_max_size = 32M
+    - short_open_tag = On
+  when: apache_php == true
+  notify: reinicia php-fpm
