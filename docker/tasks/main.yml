@@ -12,6 +12,7 @@
   ansible.builtin.user:
     name: "{{ item.name }}"
     groups: docker
+    shell: "{{ docker_user_shell }}"
   loop: "{{ apps }}"
 
 - name: Git clone
