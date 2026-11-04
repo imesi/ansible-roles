@@ -1,0 +1,4 @@
+nginx_vhost_ssh_group: vhostusers
+nginx_vhost_shell: /bin/bash
+nginx_vhosts: []
+nginx_vhost_extra_conf_path: /etc/nginx/sites-conf/

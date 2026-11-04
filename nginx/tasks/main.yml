@@ -1,0 +1,73 @@
+- name: pacotes nginx
+  apt:
+    update_cache: yes
+    pkg:
+      - nginx
+      - curl
+      - ssl-cert
+      - certbot
+      - python3-certbot-nginx
+
+- name: cria grupo de ssh para usuários
+  ansible.builtin.group:
+    name: "{{ nginx_vhost_ssh_group }}"
+  when: nginx_vhosts is defined and (nginx_vhosts|length>0)
+
+- name: cria contas para vhosts
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: "{{ nginx_vhost_ssh_group }}"
+    shell: "{{ nginx_vhost_shell }}"
+  loop: "{{ nginx_vhosts }}"
+
+- name: acerta permissão dos homes
+  ansible.builtin.file:
+    dest: "/home/{{ item }}"
+    mode: "755"
+  loop: "{{ nginx_vhosts }}"
+
+- name: cria diretorios www
+  ansible.builtin.file:
+    dest: "/home/{{ item }}/www"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    state: directory
+    mode: "755"
+  loop: "{{ nginx_vhosts }}"
+
+# para configs locais fora do ansible
+- name: cria diretório para configs extras dos virtualhosts
+  ansible.builtin.file:
+    dest: "{{ nginx_vhost_extra_conf_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "755"
+  when: nginx_vhosts is defined and (nginx_vhosts|length>0)
+
+- name: cria arquivos de config extra dos virtualhosts
+  ansible.builtin.file:
+    dest: "{{ nginx_vhost_extra_conf_path }}/{{ item }}.conf"
+    state: touch
+    owner: root
+    group: root
+    mode: "755"
+  loop: "{{ nginx_vhosts }}"
+
+- name: cria configs dos virtualhosts
+  ansible.builtin.template:
+    src: vhost.conf
+    dest: "/etc/nginx/sites-available/{{ item }}"
+    owner: root
+    group: root
+    mode: '644'
+  loop: "{{ nginx_vhosts }}"
+  notify: recarrega nginx
+
+- name: ativa configs dos virtualhosts
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
+    state: link
+  loop: "{{ nginx_vhosts }}"
+  notify: recarrega nginx
