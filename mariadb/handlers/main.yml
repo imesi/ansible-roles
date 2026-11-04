@@ -1,0 +1,4 @@
+- name: reinicia mariadb
+  service:
+    name: mariadb
+    state: restarted

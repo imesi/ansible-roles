@@ -1,0 +1,15 @@
+- name: Pacotes do mariadb
+  apt:
+    update_cache: yes
+    pkg:
+      - mariadb-client
+      - mariadb-server
+
+- name: mariadb escutando em todos os IPs
+  lineinfile:
+    dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: "^bind-address"
+    line: "bind-address            = 0.0.0.0"
+    state: present
+  when: mariadb_network == true
+  notify: reinicia mariadb
