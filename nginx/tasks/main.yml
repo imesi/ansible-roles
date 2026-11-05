@@ -52,6 +52,8 @@
     owner: root
     group: root
     mode: "755"
+    access_time: preserve
+    modification_time: preserve
   loop: "{{ nginx_vhosts }}"
 
 - name: cria configs dos virtualhosts
