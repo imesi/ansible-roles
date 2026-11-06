@@ -13,6 +13,24 @@
     name: "{{ nginx_vhost_ssh_group }}"
   when: nginx_vhosts is defined and (nginx_vhosts|length>0)
 
+- name: cria .ssh no skel
+  ansible.builtin.file:
+    dest: /etc/www/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: "700"
+
+- name: cria authorized_keys no skel
+  ansible.builtin.file:
+    dest: /etc/www/.ssh/authorized_keys
+    state: touch
+    owner: root
+    group: root
+    mode: "700"
+    access_time: preserve
+    modification_time: preserve
+
 - name: cria contas para vhosts
   ansible.builtin.user:
     name: "{{ item }}"
